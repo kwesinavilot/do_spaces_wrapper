@@ -62,6 +62,7 @@ spaces_wrapper = DOSpacesWrapper()
 
 3. Use the provided methods to perform various operations:
 
+## Functions
 ### `connectToBucket(bucketName):`
 
 Establishes a connection to the DigitalOcean Spaces bucket specified by the `DO_SPACES_BUCKET_NAME` environment variable.
@@ -190,6 +191,74 @@ contents = spaces_wrapper.listFolderContents(folder_path)
 print(contents)
 ```
 
+### `streamFileContent(filePath, chunkSize=8192)`
+Streams the content of a file from the DigitalOcean Spaces bucket.
+
+- `filePath` (str): The path of the file to stream.
+- `chunkSize` (int, optional): The size of each chunk in bytes. Defaults to 8192.
+- Returns `bytes`: The next chunk of the file content.
+
+```python
+file_path = "documents/file.txt"
+for chunk in spaces_wrapper.streamFileContent(file_path):
+    # Process the chunk
+    print(chunk)
+```
+
+### `readFile(filePath, chunkSize=8388608)`
+Reads data from a file in the DigitalOcean Spaces bucket.
+
+- `filePath` (str): The path of the file to read from.
+- `chunkSize` (int, optional): The size of each chunk in bytes. Defaults to 8388608 (8MB).
+- Returns `bytes`: The next chunk of the file content.
+
+```python
+file_path = "documents/file.txt"
+for chunk in spaces_wrapper.readFile(file_path):
+    # Process the chunk
+    print(chunk)
+```
+
+### `multipartUpload(filePath)`
+Initiates a multipart upload and returns an upload ID.
+
+- `filePath` (str): The path of the file for which the multipart upload will be initiated.
+- Returns `str`: The upload ID for the initiated multipart upload.
+
+```python
+huge_file_path = "documents/fifa_world_cup_2022.mp4"
+upload_id = spaces_wrapper.multipartUpload(huge_file_path)
+# prints out the upload ID
+print(upload_id)
+```
+
+### `uploadFileChunked(filePath, fileData chunkSize=8388608)`
+Uploads a file to the DigitalOcean Spaces bucket in chunks.
+
+- `filePath` (str): The path where the file should be uploaded.
+- `fileData` (bytes or file-like object): The file data to be uploaded.
+- `chunkSize` (int, optional): The size of each chunk in bytes. Defaults to 8388608 (8MB).
+
+```python
+file_path = "documents/large_file.txt"
+with open("local_file.txt", "rb") as file:
+    spaces_wrapper.uploadFileChunked(file_path, file)
+```
+
+### `getActualFileNames(filePaths)`
+
+Extracts the actual filenames from a list of file paths.
+
+- `filePaths` (list): A list of file paths.
+- Returns a list of actual filenames.
+
+```python
+file_paths = ['path/to/file1.txt', 'path/to/folder/file2.pdf']
+filenames = spaces_wrapper.getActualFileNames(file_paths)
+print(filenames)
+```
+
+## Usage Example
 Here's a somewhat practical example of how to use the DOSpacesWrapper class:
 ```python
 import os
