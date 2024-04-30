@@ -31,7 +31,7 @@ I may create a package around it in the future, but for now, this wrapper serves
 
 Before using this wrapper, make sure you have the following:
 
-- Python 3.x installed on your system
+- Python 3.6 or higher
 - `boto3` package installed (`pip install boto3`)
 - `botocore` package installed (`pip install botocore`)
 - DigitalOcean Spaces credentials set in your environment
